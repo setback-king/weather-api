@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Weather App</title>
+</head>
+<body>
+<div class="wrapper">
+    <header class="header">   
+        <div>Generic Weather<div>
+            
+    </header>
+    <div>
+    <form action="">
+        <label for="city"></label>
+        <input type="text" class="city" id="city" required placeholder="Search City...">
+        <button type="submit" class="search">Get Weather</button>
+  
+    </form> 
+    </div>
+
+    <div class="mainContent">
+        <h1 class='cityName'></h1>
+        <div class="weatherContent">
+         
+            <div class="box" id="tempbox">
+                <h3>Temperature</h3>
+                <div class="weather" id="temperature"></div>
+                <hr>
+                <div class="highlow">
+                        <div class="temps">
+                            <h4>High</h4>
+                            <div class="high"></div>
+                        </div>
+                        <hr>
+                        <div class="temps">
+                            <h4>Low</h4>
+                            <div class="low"></div>
+                        </div>
+                    
+                </div>  
+            </div>
+            <div class="box">
+                <h3>Current Weather</h3>
+                <div class="weather" id="current"></div>
+                <hr>
+                <h3>Feels Like</h3>
+                <div class="weather" id="feels"></div>
+
+            </div>
+            <div class="box">
+                <h3>Humidity</h3>
+                <div class="weather" id="humidity"></div>
+                <hr>
+                <h3>Pressure</h3>
+                <div class="weather" id="pressure"></div>
+
+            </div>
+            <div class="box">
+                <h3>Wind</h3>
+                <div class="weather" id="wind"></div>
+                <hr>
+                <h3>Visibility</h3>
+                <div class="weather" id="visibility"></div>
+
+            </div>
+
+
+
+        </div>
+       
+        <img class="weatherImage">
+        <div class="hiddenWeather"></div>
+
+            
+    
+
+
+    </div>
+    <footer class="footer">
+
+
+
+    </footer>
+
+
+</div>
+
+    <script src="index.js"></script>
+</body>
+</html>
