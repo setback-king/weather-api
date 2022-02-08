@@ -12,23 +12,26 @@ const pressure = document.getElementById("pressure");
 const visibility = document.getElementById("visibility");
 const tempbox = document.getElementById("tempbox");
 const hiddenWeather = document.querySelector(".hiddenWeather");
+let degreesF = "true"; 
+const switcher = document.querySelector(".switch");
+let city = ""
 
 
 function getWeather() {
-  //  if temp value === "Fahrenheit" {
-    fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityWeather.value + "&units=imperial&appid=a0618a5a0c32c299290832f8a97b1a70", {mode: 'cors'})
+    if (degreesF === "true") {
+    fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=a0618a5a0c32c299290832f8a97b1a70", {mode: 'cors'})
     .then(function(response) {
         return response.json();
       })
       .then(data => {
         console.log(data);
         let weatherObject = [data.name, data.main.temp, data.main.feels_like, data.main.humidity, data.wind.speed, data.weather[0].description, data.main.temp_max, data.main.temp_min, data.main.pressure, data.visibility, data.weather[0].main]
-       // cityName.textContent = weatherObject[0];
+       
         return weatherObject
       })
       .then(object => {
         cityName.textContent = object[0];
-        temperature.textContent = Math.round(object[1]) +" °F";
+        temperature.textContent = Math.round(object[1]) + " °F";
         feels.textContent = Math.round(object[2]) + " °F";
         humidity.textContent = object[3] + " %"
         wind.textContent = object[4].toFixed(1) + " mph";
@@ -38,16 +41,52 @@ function getWeather() {
         pressure.textContent = object[8] + " hPa";
         visibility.textContent = ((object[9] * 3.281) / 5280).toFixed(1) + " miles";
         hiddenWeather.textContent = object[10];
+        tempbox.classList.remove("hot", "cold", "average");
+        widgetsF();
+        weatherPic();
+      }) 
+      .catch (error => {
+        console.error('There has been a problem with your fetch operation:', error);
+      });
+    }
+    else if (degreesF === "false") {
         
-        widgets();
+        fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=a0618a5a0c32c299290832f8a97b1a70", {mode: 'cors'})
+    .then(function(response) {
+        return response.json();
+      })
+      .then(data => {
+        console.log(data);
+        let weatherObject = [data.name, data.main.temp, data.main.feels_like, data.main.humidity, data.wind.speed, data.weather[0].description, data.main.temp_max, data.main.temp_min, data.main.pressure, data.visibility, data.weather[0].main]
+       
+        return weatherObject
+      })
+      .then(object => {
+        cityName.textContent = object[0];
+        temperature.textContent = Math.round(object[1]) + " °C";
+        feels.textContent = Math.round(object[2]) + " °C";
+        humidity.textContent = object[3] + " %"
+        wind.textContent = object[4].toFixed(1) + " kmh";
+        current.textContent = object[5];
+        tempHigh.textContent = object[6] + " °C";
+        tempLow.textContent = object[7] + " °C";
+        pressure.textContent = object[8] + " hPa";
+        visibility.textContent = ((object[9] * 3.281) / 5280).toFixed(1) + " kilometers";
+        hiddenWeather.textContent = object[10];
+        tempbox.classList.remove("hot", "cold", "average");
+        widgetsC();
         weatherPic();
         
-      })
-      .catch(error => {
+      }) 
+      .catch (error => {
         console.error('There has been a problem with your fetch operation:', error);
-      });        
-    
-} 
+      });
+    }
+}
+       
+
+
+
 
 
 
@@ -55,13 +94,14 @@ const searchCityBtn = document.querySelector('.search')
 
 searchCityBtn.addEventListener('click', (e) => {
     e.preventDefault()
+    city = cityWeather.value;
     getWeather();
     
 
 })
 
 function generatePage() {
-    cityWeather.value = "Medellin"
+    city = "Medellin"
     getWeather();
     cityWeather.value = ""
 
@@ -69,11 +109,27 @@ function generatePage() {
 
 window.onload = generatePage();
 
-function widgets () {
-    if (temperature.textContent <= "49") {
+function widgetsF () {
+    let temp = parseInt(temperature.textContent);
+
+    if (temp <= 49) {
         tempbox.classList.add("cold")
     }
-        else if (temperature.textContent >= "50" && temperature.textContent <= "69") {
+        else if (temp>= 50 && temp <= 69) {
+            tempbox.classList.add("average")
+        }
+        else {
+            tempbox.classList.add("hot")
+        }
+}
+
+function widgetsC () {
+    let temp = parseInt(temperature.textContent);
+    
+    if ( temp<= 10) {
+        tempbox.classList.add("cold")
+    }
+        else if (temp >= 11 && temp <= 22) {
             tempbox.classList.add("average")
         }
         else {
@@ -174,7 +230,7 @@ function weatherPic() {
         })
     }
     else if (hiddenWeather.textContent.includes("Haze")) { 
-        fetch('https://api.giphy.com/v1/gifs/translate?api_key=MLyR1SOz5gSAV09eeCv4cHGzZQRbvX9A&s=haze', {mode: 'cors'})
+        fetch('https://api.giphy.com/v1/gifs/translate?api_key=MLyR1SOz5gSAV09eeCv4cHGzZQRbvX9A&s=haze ', {mode: 'cors'})
         .then(function(response) {
             return response.json()
         })
@@ -184,3 +240,21 @@ function weatherPic() {
     }
 }
 
+
+switcher.addEventListener("change", () => {
+    if (degreesF === "true") {
+        console.log("works");
+        degreesF = "false";
+        getWeather();
+        return
+       
+        
+    }
+     else if (degreesF === "false") {
+         
+         console.log("blah");
+         degreesF = "true";
+         getWeather();
+         cityWeather.value = "";
+     }
+})
