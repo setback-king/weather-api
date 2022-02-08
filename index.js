@@ -15,6 +15,7 @@ const hiddenWeather = document.querySelector(".hiddenWeather");
 let degreesF = "true"; 
 const switcher = document.querySelector(".switch");
 let city = ""
+const units = document.querySelector(".units");
 
 
 function getWeather() {
@@ -246,6 +247,7 @@ switcher.addEventListener("change", () => {
         console.log("works");
         degreesF = "false";
         getWeather();
+        units.textContent = "°C"
         return
        
         
@@ -256,5 +258,7 @@ switcher.addEventListener("change", () => {
          degreesF = "true";
          getWeather();
          cityWeather.value = "";
+         units.textContent = "°F"
+         
      }
 })
