@@ -176,3 +176,13 @@ form {
       left: 312px;
       font-size: 25px;
   }
+
+  .errorMessage {
+      position: absolute;
+      left: 465px;
+      top: 150px;
+      color: red;
+      font-size: 15px;
+      display: none;
+
+  }
